@@ -15,6 +15,9 @@ public class ImportController {
     @Autowired
     private ImportRepository importRepository;
 
+    @Autowired
+    private SupplierRepsitory supplierRepsitory;
+
     @GetMapping("")
     public String getImports(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Model model) {
         model.addAttribute("activeImports", "active");
@@ -26,5 +29,12 @@ public class ImportController {
         model.addAttribute("pageTotal", pageTotal);
         model.addAttribute("page", page + 1);
         return "imports/index";
+    }
+
+    @GetMapping("/add")
+    public String getAddProducts(Model model) {
+        model.addAttribute("activeImports", "active");
+        model.addAttribute("suppliers", supplierRepsitory.findAll());
+        return "imports/add";
     }
 }

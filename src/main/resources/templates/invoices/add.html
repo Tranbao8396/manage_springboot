@@ -47,7 +47,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Voucher:</label>
-                        <select class="select-cus select-voucher" th:name="vouhcer" required>
+                        <select class="select-cus select-voucher" th:name="voucher" required>
                             <option value="" selected hidden></option>
                             <option th:each="voucher : ${vouchers}" th:value="${voucher.id}" th:text="${voucher.id + ' - ' + voucher.voucher_name}"></option>
                         </select>

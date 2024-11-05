@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+
+<head>
+    <title>Stock Manage</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="row h-100">
+            <div class="col">
+                <div class="btn-container d-flex mb-3 gap-2">
+                    <a th:href="@{/products}" class="btn btn-secondary">
+                        <span class="material-symbols-outlined d-block">
+                            arrow_back
+                        </span>
+                    </a>
+                </div>
+
+                <h2 class="title-page">
+                    Add category
+                </h2>
+
+                <form method="post" action="javascript:void(0);" th:action="@{/products/category}" th:object="${cate_form}">
+                    <div class="mb-3">
+                        <label class="form-label">Name:</label>
+                        <input class="form-control" type="text" th:name="category_name"/>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card table-responsive h-100 card-table">
+                    <form class="ajax_form table_responsive">
+                        <table class="table table-list-ovr">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Category Name</th>
+                                    <th width="1%">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each="category, key  : ${categories}" th:data-id="${category.id}">
+                                    <th scope="row" th:text="${key.count}"></th>
+                                    <td class="info">
+                                        <span class="text" th:text="${category.category_name}"></span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <a data-bs-toggle="collapse" role="button" th:href="@{#collapseAction{id}(id=${category.id})}">
+                                            <span class="material-symbols-outlined">more_horiz</span>
+                                        </a>
+
+                                        <div class="collapse collapse-action" th:id="@{collapseAction{id}(id=${category.id})}">
+                                            <ul class="list-unstyled list-action">
+                                                <li>
+                                                    <a href="javascript:void(0);" role="button" class="edit_ajax" th:data-id="${category.id}" th:data-name="${category.category_name}">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/products/category/delete?id={id}(id=${category.id})}">Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script layout:fragment="script">
+        $('.edit_ajax').on('click', function() {
+            $(this).css('pointer-events', 'none');
+            var id = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+            var td = $('tr[data-id="'+id+'"]').find('.info');
+            td.each(function(index) {
+                $(this).html('<input type="text" class="form-control" value="'+$(this).find('.text').text()+'">');
+
+                if (index == 0) {
+                    $(this).append(`
+                    <div class="d-flex mt-2">
+                        <a data-id="${id}" href="javascript:void(0);" class="d-flex align-items-center btn-confirm-table btn btn-primary me-1" role="button">
+                            <span class="material-symbols-outlined">edit</span>
+                        </a>
+
+                        <a data-id="${id}" data-name="${name}" href="javascript:void(0);" class="d-flex align-items-center btn btn-primary btn-cancel-table" role="button">
+                            <span class="material-symbols-outlined">close</span>
+                        </a>
+                    </div>
+                    `);
+                }
+            });
+            var not_btn = $('.edit_ajax').not('[data-id="'+id+'"]').css('pointer-events', 'auto');
+            var not_td = $('tbody tr').not('[data-id="'+id+'"]');
+            not_td.each(function(index) {
+                var ol_name = not_btn[index].dataset.name;
+                var info = $(this).find('.info');
+
+                info.each(function(index) {
+                    switch(index) {
+                        case 0:
+                            $(this).html(`<span class="text">${ol_name}</span>`);
+                            break;
+                    }
+                })
+            });
+        });
+
+        $(document).on('click', '.btn-cancel-table', function() {
+            var id = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+            var td = $('tr[data-id="'+id+'"]').find('.info');
+            td.each(function(index) {
+                switch(index) {
+                    case 0:
+                        $(this).html(`<span>${name}</span>`);
+                        break;
+                }
+            });
+            $('a[data-id="'+id+'"]').css('pointer-events', 'auto');
+        });
+
+        $(document).on('click', '.btn-confirm-table', function() {
+            $.ajax({
+                type: "POST",
+                url: "/products/category/update",
+                data: {
+                    id: $(this).attr('data-id'),
+                    name: $('tr[data-id="'+$(this).attr('data-id')+'"]').find('.info').eq(0).find('input').val(),
+                },
+                success: function(result) {
+                    if (result == 'success') {
+                        location.reload();
+                    }
+                }
+            })
+        });
+    </script>
+</body>
+</html>

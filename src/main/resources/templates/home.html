@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+
+<head>
+    <title>Stock Manage</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title tlte-md">Total Suppliers</h2>
+                        <p class="mb-0" th:text="${suppliers_count}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title tlte-md">Storage</h2>
+                        <p class="mb-0" th:text="${stock}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title tlte-md">Total Income</h2>
+                        <p class="mb-0" th:text="${income}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title tlte-md">Total Outcome</h2>
+                        <p class="mb-0" th:text="${outcome}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        This is some text within a card body.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        This is some text within a card body.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                This is some text within a card body.
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

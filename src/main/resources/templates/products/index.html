@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+
+<head>
+    <title>Stock Manage</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="sub-content">
+            <h2 class="title-page mb-3">
+                Products
+            </h2>
+
+            <div class="btn-container d-flex mb-3 gap-2">
+                <a th:href="@{/products/add}" class="btn btn-primary">
+                    Add Products
+                </a>
+
+                <a th:href="@{/products/category}" class="btn btn-secondary">
+                    Product Categories
+                </a>
+            </div>
+
+            <div class="card table-responsive card-table">
+                <div class="navigation-table">
+                    <a class="btn btn-outline-primary" th:classappend="${page == 1 ? 'disabled' : ''}" th:href="@{/products?page={page}(page=${page == 1 ? 1 : page - 1})}">
+                        <span class="material-symbols-outlined">
+                            arrow_back_ios_new
+                        </span>
+                    </a>
+                    <a class="btn btn-outline-primary" th:classappend="${page == pageTotal ? 'disabled' : ''}" th:href="@{/products?page={page}(page=${page + 1})}">
+                        <span class="material-symbols-outlined">
+                            arrow_forward_ios
+                        </span>
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-list-ovr">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Publisher</th>
+                                <th width="1%">Action</th>
+                            </tr>
+                        </thead>
+    
+                        <tbody>
+                            <tr th:each="product, key  : ${products}" th:data-id="${product.id}">
+                                <th scope="row" th:text="${key.count}"></th>
+                                <td class="info info-name">
+                                    <span class="text" th:text="${product.name}"></span>
+                                </td>
+                                <td class="info info-numb">
+                                    <span class="text" th:text="${product.categories.category_name}"></span>
+                                </td>
+                                <td class="select-col">
+                                    <span class="text" th:text="${product.price}"></span>
+                                </td>
+
+                                <td class="select-col">
+                                    <span class="text" th:text="${product.quantity}"></span>
+                                </td>
+
+                                <td class="select-col">
+                                    <span class="text" th:text="${product.suppliers.supplier}"></span>
+                                </td>
+    
+                                <td style="text-align: center;">
+                                    <a data-bs-toggle="collapse" role="button" th:href="@{#collapseAction{id}(id=${product.id})}">
+                                        <span class="material-symbols-outlined">more_horiz</span>
+                                    </a>
+    
+                                    <div class="collapse collapse-action" th:id="@{collapseAction{id}(id=${product.id})}">
+                                        <ul class="list-unstyled list-action">
+                                            <li>
+                                                <a th:href="@{/products/delete?id={id}(id=${product.id})}">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script layout:fragment="script">
+        
+    </script>
+</body>
+</html>

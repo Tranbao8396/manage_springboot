@@ -1,0 +1,33 @@
+.navbar {
+  padding: 20px;
+  border-radius: 30px;
+  box-shadow: 2px 2px 5px 0 #c9c9c9;
+
+  &-right {
+    position: relative;
+
+    .collapse-nav {
+      position: absolute;
+      background-color: #fff;
+      top: 140%;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px 0 #c9c9c9;
+      right: 0;
+      width: 150px;
+      z-index: 1;
+
+      .list-nav {
+        padding: 10px 15px;
+        margin-bottom: 0;
+
+        li {
+          margin-bottom: 10px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

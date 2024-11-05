@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+
+<head>
+    <title>Stock Manage</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="row h-100">
+            <div class="col">
+                <h2 class="title-page">
+                    Add Supplier
+                </h2>
+
+                <form method="post" action="javascript:void(0);" th:action="@{/suppliers}" th:object="${supplier_form}">
+                    <div class="mb-3">
+                        <label class="form-label">Name:</label>
+                        <input class="form-control" type="text" th:name="supplier"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Number:</label>
+                        <input class="form-control" type="text" th:name="supplier_number"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">contact status:</label>
+                        <select class="form-select" th:name="status">
+                            <option value="" selected hidden></option>
+                            <option value="1">Online</option>
+                            <option value="0">Offline</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card table-responsive h-100 card-table">
+                    <form class="ajax_form table_responsive">
+                        <table class="table table-list-ovr">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Supplier Name</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th width="1%">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each="supplier, key  : ${suppliers}" th:data-id="${supplier.id}">
+                                    <th scope="row" th:text="${key.count}"></th>
+                                    <td class="info info-name">
+                                        <span class="text" th:text="${supplier.supplier}"></span>
+                                    </td>
+                                    <td class="info info-numb">
+                                        <span class="text" th:text="${supplier.supplier_number}"></span>
+                                    </td>
+                                    <td class="select-col">
+                                        <span class="text" th:text="${supplier.status == true ? 'Online' : 'Offline'}"></span>
+                                    </td>
+
+                                    <td style="text-align: center;">
+                                        <a data-bs-toggle="collapse" role="button" th:href="@{#collapseAction{id}(id=${supplier.id})}">
+                                            <span class="material-symbols-outlined">more_horiz</span>
+                                        </a>
+
+                                        <div class="collapse collapse-action" th:id="@{collapseAction{id}(id=${supplier.id})}">
+                                            <ul class="list-unstyled list-action">
+                                                <li>
+                                                    <a href="javascript:void(0);" role="button" class="edit_ajax" th:data-id="${supplier.id}" th:data-name="${supplier.supplier}" th:data-number="${supplier.supplier_number}" th:data-status="${supplier.status}">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="@{/suppliers/delete?id={id}(id=${supplier.id})}">Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script layout:fragment="script">
+        $('.edit_ajax').on('click', function() {
+            $(this).css('pointer-events', 'none');
+            var id = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+            var number = $(this).attr('data-number');
+            var status = $(this).attr('data-status');
+            var td = $('tr[data-id="'+id+'"]').find('.info');
+            td.each(function(index) {
+                $(this).html('<input type="text" class="form-control" value="'+$(this).find('.text').text()+'">');
+
+                if (index == 0) {
+                    $(this).append(`
+                    <div class="d-flex mt-2">
+                        <a data-id="${id}" href="javascript:void(0);" class="d-flex align-items-center btn-confirm-table btn btn-primary me-1" role="button">
+                            <span class="material-symbols-outlined">edit</span>
+                        </a>
+
+                        <a data-id="${id}" data-name="${name}" data-number="${number}" status="${status}" href="javascript:void(0);" class="d-flex align-items-center btn btn-primary btn-cancel-table" role="button">
+                            <span class="material-symbols-outlined">close</span>
+                        </a>
+                    </div>
+                    `);
+                }
+            });
+            $select = $('tr[data-id="'+id+'"]').find('.select-col');
+            if ($select.find('span').text() == 'Online') {
+                $select.html('<select class="form-select"><option value="1" selected>Online</option><option value="0">Offline</option></select>');
+            } else {
+                $select.html('<select class="form-select"><option value="1">Online</option><option value="0" selected>Offline</option></select>');
+            }
+
+            var not_btn = $('.edit_ajax').not('[data-id="'+id+'"]').css('pointer-events', 'auto');
+            var not_td = $('tbody tr').not('[data-id="'+id+'"]');
+            not_td.each(function(index) {
+                var ol_name = not_btn[index].dataset.name;
+                var ol_number = not_btn[index].dataset.number;
+                var info = $(this).find('.info');
+
+                info.each(function(index) {
+                    switch(index) {
+                        case 0:
+                            $(this).html(`<span class="text">${ol_name}</span>`);
+                            break;
+                        case 1:
+                            $(this).html(`<span class="text">${ol_number}</span>`);
+                    }
+                })
+            });
+
+            $select = $('tr').not('[data-id="'+id+'"]').find('.select-col');
+            $select.each(function(index) {
+                $(this).html(`<span class="text">${not_btn[index].dataset.status == 'true' ? 'Online' : 'Offline'}</span>`);
+            })
+        });
+
+        $(document).on('click', '.btn-cancel-table', function() {
+            var id = $(this).attr('data-id');
+            var name = $(this).attr('data-name');
+            var number = $(this).attr('data-number');
+            var status = $(this).attr('data-status');
+            var td = $('tr[data-id="'+id+'"]').find('.info');
+            td.each(function(index) {
+                switch(index) {
+                    case 0:
+                        $(this).html(`<span>${name}</span>`);
+                        break;
+                    case 1:
+                        $(this).html(`<span>${number}</span>`);
+                        break;
+                }
+            });
+            $('a[data-id="'+id+'"]').css('pointer-events', 'auto');
+            $select = $('tr[data-id="'+id+'"]').find('.select-col');
+            $select.html(`<span>${status ? 'Online' : 'Offline'}</span>`);
+        });
+
+        $(document).on('click', '.btn-confirm-table', function() {
+            $.ajax({
+                type: "POST",
+                url: "/suppliers/update",
+                data: {
+                    id: $(this).attr('data-id'),
+                    name: $('tr[data-id="'+$(this).attr('data-id')+'"]').find('.info').eq(0).find('input').val(),
+                    number: $('tr[data-id="'+$(this).attr('data-id')+'"]').find('.info').eq(1).find('input').val(),
+                    status: $('tr[data-id="'+$(this).attr('data-id')+'"]').find('.select-col').find('select').val()
+                },
+                success: function(result) {
+                    if (result == 'success') {
+                        location.reload();
+                    }
+                }
+            })
+        });
+    </script>
+</body>
+</html>

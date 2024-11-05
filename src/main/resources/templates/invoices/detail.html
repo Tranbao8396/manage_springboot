@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+
+<head>
+    <title>Stock Manage</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="sub-content">
+            <div class="btn-container d-flex mb-3 gap-2">
+                <a th:href="@{/invoices}" class="btn btn-secondary">
+                    <span class="material-symbols-outlined d-block">
+                        arrow_back
+                    </span>
+                </a>
+            </div>
+
+            <h2 class="title-page mb-3">
+                Invoices
+            </h2>
+
+            <div class="card table-responsive card-table">
+                <div class="table-responsive">
+
+                    <table class="table table-list-ovr">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Item</th>
+                                <th>Item ID</th>
+                                <th>quantity</th>
+                                <th width="1%" class="text-nowrap">Price</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="item, key  : ${invoice}">
+                                <th scope="row" th:text="${key.count}"></th>
+                                <td class="info">
+                                    <span class="text" th:text="${item.products.name}"></span>
+                                </td>
+                                <td class="info">
+                                    <span class="text" th:text="${item.item}"></span>
+                                </td>
+                                <td class="info">
+                                    <span class="text" th:text="${invoiceRepo.getInvoiceDetailQuantity(item.invoice_id, item.item) != null ? invoiceRepo.getInvoiceDetailQuantity(item.invoice_id, item.item) : 0}"></span>
+                                </td>
+                                <td class="info text-end">
+                                    <span class="text" th:text="${item.products.price * invoiceRepo.getInvoiceDetailQuantity(item.invoice_id, item.item)}"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script layout:fragment="script"></script>
+</body>
+</html>

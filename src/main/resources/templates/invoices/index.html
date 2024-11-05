@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+
+<head>
+    <title>Stock Manage</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="sub-content">
+            <h2 class="title-page mb-3">
+                Invoices
+            </h2>
+
+            <div class="btn-container d-flex mb-3 gap-2">
+                <a th:href="@{/invoices/add}" class="btn btn-primary">
+                    Create Invoices
+                </a>
+            </div>
+
+            <div class="card table-responsive card-table">
+                <div class="navigation-table">
+                    <a class="btn btn-outline-primary" th:classappend="${page == 1 ? 'disabled' : ''}" th:href="@{/invoices?page={page}(page=${page == 1 ? 1 : page - 1})}">
+                        <span class="material-symbols-outlined">
+                            arrow_back_ios_new
+                        </span>
+                    </a>
+                    <a class="btn btn-outline-primary" th:classappend="${page == pageTotal ? 'disabled' : ''}" th:href="@{/invoices?page={page}(page=${page + 1})}">
+                        <span class="material-symbols-outlined">
+                            arrow_forward_ios
+                        </span>
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table table-list-ovr">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Invoice ID</th>
+                                <th>Date</th>
+                                <th width="1%" class="text-nowrap">Total Price</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="invoice, key  : ${invoices}" th:data-id="${invoice.id}">
+                                <th scope="row" th:text="${key.count}"></th>
+                                <td class="info">
+                                    <a th:href="@{/invoices/{id}(id=${invoice.id})}" th:text="${invoice.id}">/>
+                                </td>
+                                <td class="info">
+                                    <span class="text" th:text="${invoice.created_date}"></span>
+                                </td>
+                                <td class="info text-end">
+                                    <span class="text" th:text="${invoiceRepo.getTotalPrice(invoice.id) != null ? invoiceRepo.getTotalPrice(invoice.id) : 0}"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script layout:fragment="script">
+        
+    </script>
+</body>
+</html>

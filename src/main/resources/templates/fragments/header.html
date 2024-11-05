@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Header Fragment</title>
+</head>
+<body>
+    <nav class="navbar container-fluid bg-body-tertiary" th:fragment="header">
+        <h1 class="navbar-brand mb-0 h1">Navbar</h1>
+
+        <div class="d-flex navbar-right">
+            <a class="" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
+                Hello, User
+            </a>
+
+            <div class="collapse collapse-nav" id="collapseExample">
+                <ul class="list-unstyled list-nav">
+                    <li>
+                        <a href="#">Profile</a>
+                    </li>
+                    <li>
+                        <a href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</body>
+</html>

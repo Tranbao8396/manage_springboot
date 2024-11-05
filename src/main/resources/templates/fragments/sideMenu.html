@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Side Menu Fragment</title>
+</head>
+<body>
+    <div class="section-left" th:fragment="sideMenu">
+        <div class="side-menu">
+            <button class="hamburger-button" id="side_hamburger_expand">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+
+            <ul class="list-unstyled list-menu">
+                <li th:class="${activeHome}">
+                    <a th:href="@{/}">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="text-link">Dashboard</span>
+                    </a>
+                </li>
+
+                <li th:class="${activeProducts}">
+                    <a th:href="@{/products}">
+                        <span class="material-symbols-outlined">inventory_2</span>
+                        <span class="text-link">Products</span>
+                    </a>
+                </li>
+
+                <li th:class="${activeInvoices}">
+                    <a th:href="@{/invoices}">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                        <span class="text-link">Invoices</span>
+                    </a>
+                </li>
+
+                <li th:class="${activeVouchers}">
+                    <a th:href="@{/vouchers}">
+                        <span class="material-symbols-outlined">beenhere</span>
+                        <span class="text-link">Vouchers</span>
+                    </a>
+                </li>
+
+                <li th:class="${activeImports}">
+                    <a th:href="@{/imports}">
+                        <span class="material-symbols-outlined">download</span>
+                        <span class="text-link">Import</span>
+                    </a>
+                </li>
+
+                <li th:class="${activeSupplier}">
+                    <a th:href="@{/suppliers}">
+                        <span class="material-symbols-outlined">forklift</span>
+                        <span class="text-link">Suppliers</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

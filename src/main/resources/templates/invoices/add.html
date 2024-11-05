@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+
+<head>
+    <title>Stock Manage</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+        integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="row h-100">
+            <div class="col">
+                <div class="btn-container d-flex mb-3 gap-2">
+                    <a th:href="@{/invoices}" class="btn btn-secondary">
+                        <span class="material-symbols-outlined d-block">
+                            arrow_back
+                        </span>
+                    </a>
+                </div>
+
+                <h2 class="title-page">
+                    Add Inovoices
+                </h2>
+
+                <form method="post" action="javascript:void(0);">
+                    <div class="mb-3">
+                        <label class="form-label">Book ID:</label>
+                        <select class="select-cus select-book" th:name="products" required>
+                            <option value="" selected hidden></option>
+                            <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.id + ' - ' + product.name}"></option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label">Quantity:</label>
+                        <input class="form-control" type="number" th:name="quantity" id="quantity"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Price:</label>
+                        <input class="form-control" type="number" th:name="price" id="price" disabled/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Voucher:</label>
+                        <select class="select-cus select-voucher" th:name="vouhcer" required>
+                            <option value="" selected hidden></option>
+                            <option th:each="voucher : ${vouchers}" th:value="${voucher.id}" th:text="${voucher.id + ' - ' + voucher.voucher_name}"></option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-add">Add</button>
+                </form>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card table-responsive h-100 card-table">
+                    <form method="post" th:action="@{/invoices/add}" th:object="${invoice_form}" class="ajax_form table_responsive d-flex flex-column justify-content-between align-items-start" style="height: 100%;">
+                        <table class="table table-list-ovr" id="table-invoice-list">
+                            <thead>
+                                <tr>
+                                    <th>Category Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th width="1%">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody></tbody>
+                        </table>
+
+                        <button type="submit" class="btn btn-primary" id="btn-submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script layout:fragment="script-src" src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+        integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script layout:fragment="script">
+        $(".select-book").selectize();
+        $(".select-voucher").selectize();
+
+        $(".select-voucher")[0].selectize.lock();
+
+        var cur_price;
+
+        $(".select-book").on("change", function () {
+            var id = $(this).val();
+            $(".select-voucher")[0].selectize.clear();
+            if (id == "") {
+                $("#price").val('');
+                $(".select-voucher")[0].selectize.lock();
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "/products/" + id,
+                success: function(result){
+                    var quantity;
+                    if ($("#quantity").val() == "") {
+                        quantity = 1;
+                    } else {
+                        quantity = $("#quantity").val();
+                    }
+                    $("#price").val(result.price * quantity);
+                    cur_price = result.price * quantity;
+                    $(".select-voucher")[0].selectize.unlock();
+                }
+            })
+        });
+
+        $(".select-voucher").on("change", function () {
+            var id = $(this).val();
+            var price = $("#price").val();
+
+            if (id == "") {
+                $("#price").val(cur_price);
+                return;
+            } else {
+                $.ajax({
+                    type: "GET",
+                    url: "/vouchers/" + id,
+                    success: function(result){
+                        $("#price").val(price - price*result.discount);
+                    }
+                })
+            }
+        });
+
+        $('#quantity').on('keyup', function() {
+            var quantity = $("#quantity").val();
+            if (quantity > 0) {
+                $("#price").val(cur_price * quantity);
+            }
+        });
+
+        var no_click = 0;
+
+        $(".btn-add").on("click", function () {
+            var id = $('.select-book').val();
+            var name = $('.select-book').find('option:selected').text();
+            var quantity;
+            var price = $("#price").val();
+
+            if ($("#quantity").val() == "") {
+                quantity = 1;
+            } else {
+                quantity = $("#quantity").val();
+            }
+
+            if (id == "") {
+                return;
+            }
+
+            var no = no_click++;
+
+            var html = `<tr>
+                <td class="info td-name">
+                    <span class="text info-name">${name}</span>
+                    <input type="hidden" name="item[]" value="${id}"/>
+                </td>
+                <td class="info td-quantity">
+                    <span class="text info-quan">${quantity}</span>
+                    <input type="hidden" name="quantity[]" value="${quantity}"/>
+                </td>
+                <td class="info td-price">
+                    <span class="text info-price">${price}</span>
+                    <input type="hidden" name="price[]" value="${price}"/>
+                </td>
+                <td style="text-align: center;">
+                    <a data-bs-toggle="collapse" role="button" href="#collapseAction${no}">
+                        <span class="material-symbols-outlined">more_horiz</span>
+                    </a>
+
+                    <div class="collapse collapse-action" id="collapseAction${no}">
+                        <ul class="list-unstyled list-action">
+                            <li>
+                                <a href="javascript:void(0);" role="button" class="delete_ajax">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>`;
+
+            $("#table-invoice-list").append(html);
+        });
+
+        $(document).on("click", ".delete_ajax", function () {
+            $(this).closest("tr").remove();
+        });
+
+        $('#btn-submit').on("click", function (e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+            if (form.find('tbody').html() !== '') {
+                form.submit();
+            }
+        });
+    </script>
+</body>
+</html>

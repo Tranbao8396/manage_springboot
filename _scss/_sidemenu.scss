@@ -1,0 +1,147 @@
+.side-menu {
+  height: 100%;
+  text-align: right;
+  background-color: #ff912b;
+  border-radius: 30px;
+  box-shadow:  -2px 2px 10px 0px #c9c9c9;
+  transition: all 0.3s ease;
+  width: 300px;
+  overflow: hidden;
+
+  &.active {
+    width: 54px;
+    border-radius: 15px;
+
+    .list-menu {
+      .text-link {
+        transform: translateX(100px);
+        opacity: 0;
+      }
+
+      .material-symbols-outlined {
+        opacity: 1;
+        width: 34px;
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .hamburger-button {
+    margin: 20px 20px 0 10px;
+    position: relative;
+    width: 34px;
+    height: 30px;
+    border: 0;
+    background-color: transparent;
+
+    &.active {
+      .line {
+        &:first-child {
+          left: 20px;
+          transform: rotate(45deg);
+        }
+
+        &:last-child {
+          left: 20px;
+          transform: rotate(-45deg);
+        }
+      }
+    }
+
+    .line {
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 4px;
+      border-radius: 5px;
+      background-color: #000;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      transition: all 0.3s ease;
+
+      &:first-child {
+        top: 8px;
+        left: -22px;
+        transform: rotate(-45deg);
+        width: 50%;
+      }
+
+      &:nth-child(2) {
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+      }
+
+      &:last-child {
+        bottom: 8px;
+        left: -22px;
+        transform: rotate(45deg);
+        width: 50%;
+      }
+    }
+  }
+
+  .list-menu {
+    text-align: left;
+
+    li {
+      &.active {
+        a {
+          color: #fff;
+
+          &:after {
+            width: 100%;
+          }
+        }
+      }
+      a {
+        position: relative;
+        padding: 6px 10px;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        font-size: 1.1rem;
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+        transition: cubic-bezier(0.89, 0, 0.12, 1) 0.1s;
+        z-index: 1;
+
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          display: block;
+          width: 0;
+          height: 100%;
+          background-color: #0d6efd;
+          transition: cubic-bezier(0.89, 0, 0.12, 1) 0.3s;
+          z-index: -1;
+        }
+
+        &:hover {
+          color: #fff;
+          &:after {
+            width: 100%;
+          }
+        }
+      }
+
+      span {
+        display: block;
+        transition: all 0.3s ease;
+      }
+
+      .material-symbols-outlined {
+        font-size: 34px;
+        transform: translateX(-100px);
+        width: 0;
+        opacity: 0;
+        font-variation-settings: 'FILL' 1;
+      }
+    }
+  }
+}

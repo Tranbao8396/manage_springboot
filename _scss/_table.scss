@@ -1,0 +1,50 @@
+.table-list-ovr {
+  tr {
+    td {
+      .form-control {
+        padding: 5px;
+      }
+    }
+
+    .collapse-action {
+      position: absolute;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 2px 2px 5px 0 #c9c9c9;
+      font-size: 14px;
+      z-index: 1;
+      text-align: left;
+
+      .list-action {
+        padding: 7px;
+        margin-bottom: 0;
+
+        li,a {
+          transition: all 0.3s ease;
+        }
+
+        li {
+          margin-bottom: 5px;
+          border-radius: 5px;
+
+          a {
+            display: block;
+            padding: 0 3px;
+          }
+
+          &:hover {
+            background-color: #066cf0;
+
+            a {
+              color: #fff;
+            }
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

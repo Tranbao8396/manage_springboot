@@ -11,7 +11,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title tlte-md">Total Suppliers</h2>
+                        <h2 class="card-title tlte-md">Publishers</h2>
                         <p class="mb-0" th:text="${suppliers_count}"></p>
                     </div>
                 </div>
@@ -29,8 +29,8 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title tlte-md">Total Income</h2>
-                        <p class="mb-0" th:text="${income}"></p>
+                        <h2 class="card-title tlte-md">Income</h2>
+                        <p class="mb-0" th:text="${income + ' $'}"></p>
                     </div>
                 </div>
             </div>
@@ -38,8 +38,8 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title tlte-md">Total Outcome</h2>
-                        <p class="mb-0" th:text="${outcome}"></p>
+                        <h2 class="card-title tlte-md">Outcome</h2>
+                        <p class="mb-0" th:text="${outcome + ' $'}"></p>
                     </div>
                 </div>
             </div>

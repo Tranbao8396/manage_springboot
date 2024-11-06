@@ -14,16 +14,19 @@ public class IndexController {
     private ProductsRepository productsRepository;
 
     @Autowired
+    private ImportRepository importRepository;
+
+    @Autowired
     private InvoiceDetailRepository invoiceDetailRepository;
 
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("activeHome","active");
         model.addAttribute("suppliers_count", supplierRepsitory.count());
-        model.addAttribute("income", invoiceDetailRepository.getTotalPriceAll());
+        model.addAttribute("income", String.format("%.0f", importRepository.getPriceImportAll() - invoiceDetailRepository.getTotalPriceAll()));
 
-        model.addAttribute("stock", '1');
-        model.addAttribute("outcome", '1');
+        model.addAttribute("stock", importRepository.getQuantityImportAll());
+        model.addAttribute("outcome", String.format("%.0f", importRepository.getPriceImportAll()));
         return "home";
     }
 }

@@ -29,7 +29,7 @@ public class InvoiceDetail implements Serializable {
     private Invoices invoices;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "item", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "item", referencedColumnName = "book_id", insertable = false, updatable = false)
     private Products products;
 
     @ManyToOne(fetch = FetchType.EAGER)

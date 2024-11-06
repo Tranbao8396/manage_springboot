@@ -23,10 +23,13 @@ public class IndexController {
     public String index(Model model) {
         model.addAttribute("activeHome","active");
         model.addAttribute("suppliers_count", supplierRepsitory.count());
-        model.addAttribute("income", String.format("%.0f", importRepository.getPriceImportAll() - invoiceDetailRepository.getTotalPriceAll()));
 
-        model.addAttribute("stock", importRepository.getQuantityImportAll());
-        model.addAttribute("outcome", String.format("%.0f", importRepository.getPriceImportAll()));
+        var PriceImport = importRepository.getPriceImportAll() != null ? importRepository.getPriceImportAll() : 0;
+        var Totalprice = invoiceDetailRepository.getTotalPriceAll() != null ? invoiceDetailRepository.getTotalPriceAll() : 0;
+        var QuantityImport = importRepository.getQuantityImportAll() != null ? importRepository.getQuantityImportAll() : 0;
+        model.addAttribute("income", String.format("%.0f", PriceImport - Totalprice));
+        model.addAttribute("stock", QuantityImport);
+        model.addAttribute("outcome", String.format("%.0f", PriceImport));
         return "home";
     }
 }

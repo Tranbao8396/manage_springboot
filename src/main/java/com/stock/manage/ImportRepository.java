@@ -10,5 +10,5 @@ public interface ImportRepository extends JpaRepository<Import, Integer> {
     public Float getPriceImportAll();
 
     @Query("SELECT SUM(i.quantity) FROM Import i")
-    public int getQuantityImportAll();
+    public Integer getQuantityImportAll();
 }

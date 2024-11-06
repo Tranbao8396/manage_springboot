@@ -30,8 +30,13 @@
                         <label class="form-label">Book ID:</label>
                         <select class="select-cus select-book" th:name="products" required>
                             <option value="" selected hidden></option>
-                            <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.id + ' - ' + product.imports.book_name}"></option>
+                            <option th:each="product : ${products}" th:value="${product.book_id}" th:text="${product.book_id}"></option>
                         </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Book Name:</label>
+                        <input class="form-control" type="text" th:name="book_name" id="book_name"/>
                     </div>
 
 
@@ -63,7 +68,7 @@
                         <table class="table table-list-ovr" id="table-invoice-list">
                             <thead>
                                 <tr>
-                                    <th>Category Name</th>
+                                    <th>Book Name</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th width="1%">Action</th>
@@ -97,6 +102,7 @@
             $(".select-voucher")[0].selectize.clear();
             if (id == "") {
                 $("#price").val('');
+                $("#book_name").val('');
                 $(".select-voucher")[0].selectize.lock();
                 return;
             }
@@ -114,6 +120,7 @@
                     $("#price").val(result.price * quantity);
                     cur_price = result.price * quantity;
                     $(".select-voucher")[0].selectize.unlock();
+                    $("#book_name").val(result.imports.book_name);
                 }
             })
         });
@@ -147,7 +154,7 @@
 
         $(".btn-add").on("click", function () {
             var id = $('.select-book').val();
-            var name = $('.select-book').find('option:selected').text();
+            var name = $('#book_name').val();
             var quantity;
             var price = $("#price").val();
 

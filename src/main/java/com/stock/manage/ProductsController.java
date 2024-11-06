@@ -90,7 +90,7 @@ public class ProductsController {
     @GetMapping("/{id}")
     @ResponseBody
     public Products getProductById(@PathVariable int id) {
-        return productsRepsitory.findById(id).get();
+        return productsRepsitory.getProductbyBookId(id);
     }
 
     @GetMapping("/category/delete")

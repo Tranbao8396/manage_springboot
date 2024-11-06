@@ -30,6 +30,9 @@ public class InvoiceController {
     @Autowired
     private VoucherRepository voucherRepository;
 
+    @Autowired
+    private ImportRepository importRepository;
+
     @GetMapping("")
     public String getInvoice(@RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int pageSize, Model model) {
@@ -81,10 +84,9 @@ public class InvoiceController {
             invoiceDetail.setQuantity(quantities.get(i));
             invoiceDetail.setPrice(prices.get(i));
 
-            Products product = productsRepository.findById(items.get(i)).get();
-            // product.setQuantity(product.getQuantity() - quantities.get(i));
-            productsRepository.save(product);
-
+            Import imports = importRepository.findById(items.get(i)).get();
+            imports.setQuantity(imports.getQuantity() - quantities.get(i));
+            importRepository.save(imports);
             invoiceDetailRepository.save(invoiceDetail);
         }
         return "redirect:/invoices";

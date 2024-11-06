@@ -2,6 +2,7 @@ package com.stock.manage;
 
 import java.io.Serializable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ public class Products implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
     private int book_id;
     private int category_id;
     private Float price;
@@ -29,7 +31,7 @@ public class Products implements Serializable {
     private Categories categories;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "book_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "book_id", referencedColumnName = "id", insertable = false, updatable = false, unique = true)
     private Import imports;
 
     public Categories getCategories() {

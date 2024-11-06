@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
-@RequestMapping("/suppliers")
+@RequestMapping("/publisher")
 public class SuppliersController {
     @Autowired
     private SupplierRepsitory supplierRepsitory;
@@ -26,13 +26,13 @@ public class SuppliersController {
     @PostMapping("")
     public String addSupplier(@ModelAttribute BookSupplier supplier_form, Model model) {
         supplierRepsitory.save(supplier_form);
-        return "redirect:/suppliers";
+        return "redirect:/publisher";
     }
 
     @GetMapping("/delete")
     public String deleteSupplier(@RequestParam int id) {
         supplierRepsitory.deleteById(id);
-        return "redirect:/suppliers";
+        return "redirect:/publisher";
     }
 
     @PostMapping("/update")

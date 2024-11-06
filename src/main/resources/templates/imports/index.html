@@ -66,14 +66,14 @@
                                     <span class="text" th:text="${import.status == true ? 'On Stock' : 'Out of Stock'}"></span>
                                 </td>
                                 <td style="text-align: center;">
-                                    <a data-bs-toggle="collapse" role="button" th:href="@{#collapseAction{id}(id=${product.id})}">
+                                    <a data-bs-toggle="collapse" role="button" th:href="@{#collapseAction{id}(id=${import.id})}">
                                         <span class="material-symbols-outlined">more_horiz</span>
                                     </a>
     
-                                    <div class="collapse collapse-action" th:id="@{collapseAction{id}(id=${product.id})}">
+                                    <div class="collapse collapse-action" th:id="@{collapseAction{id}(id=${import.id})}">
                                         <ul class="list-unstyled list-action">
                                             <li>
-                                                <a th:href="@{/products/delete?id={id}(id=${product.id})}">Delete</a>
+                                                <a th:href="@{/imports/delete?id={id}(id=${import.id})}">Delete</a>
                                             </li>
                                         </ul>
                                     </div>

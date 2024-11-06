@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/imports")
@@ -36,5 +40,26 @@ public class ImportController {
         model.addAttribute("activeImports", "active");
         model.addAttribute("suppliers", supplierRepsitory.findAll());
         return "imports/add";
+    }
+
+    @PostMapping("/add")
+    public String postProducts(@ModelAttribute Import prd_form, Model model) {
+        var quantity = prd_form.getQuantity();
+
+        if (quantity > 0) {
+            prd_form.setStatus(true);
+        } else {
+            prd_form.setStatus(false);
+        }
+
+        importRepository.save(prd_form);
+
+        return "redirect:/imports";
+    }
+
+    @GetMapping("/delete")
+    public String deleteProducts(@RequestParam int id) {
+        importRepository.deleteById(id);
+        return "redirect:/imports";
     }
 }

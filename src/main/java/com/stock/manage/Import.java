@@ -16,9 +16,9 @@ import jakarta.persistence.Table;
 public class Import implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private int id;
     private int sup_id;
     private String book_name;

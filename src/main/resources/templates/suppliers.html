@@ -13,7 +13,7 @@
                     Add Supplier
                 </h2>
 
-                <form method="post" action="javascript:void(0);" th:action="@{/suppliers}" th:object="${supplier_form}">
+                <form method="post" action="javascript:void(0);" th:action="@{/publisher}" th:object="${supplier_form}">
                     <div class="mb-3">
                         <label class="form-label">Name:</label>
                         <input class="form-control" type="text" th:name="supplier"/>
@@ -75,7 +75,7 @@
                                                     <a href="javascript:void(0);" role="button" class="edit_ajax" th:data-id="${supplier.id}" th:data-name="${supplier.supplier}" th:data-number="${supplier.supplier_number}" th:data-status="${supplier.status}">Edit</a>
                                                 </li>
                                                 <li>
-                                                    <a th:href="@{/suppliers/delete?id={id}(id=${supplier.id})}">Delete</a>
+                                                    <a th:href="@{/publisher/delete?id={id}(id=${supplier.id})}">Delete</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -169,7 +169,7 @@
         $(document).on('click', '.btn-confirm-table', function() {
             $.ajax({
                 type: "POST",
-                url: "/suppliers/update",
+                url: "/publisher/update",
                 data: {
                     id: $(this).attr('data-id'),
                     name: $('tr[data-id="'+$(this).attr('data-id')+'"]').find('.info').eq(0).find('input').val(),

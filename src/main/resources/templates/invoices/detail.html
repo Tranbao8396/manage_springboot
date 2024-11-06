@@ -38,7 +38,7 @@
                             <tr th:each="item, key  : ${invoice}">
                                 <th scope="row" th:text="${key.count}"></th>
                                 <td class="info">
-                                    <span class="text" th:text="${item.products.name}"></span>
+                                    <span class="text" th:text="${item.products.imports.book_name}"></span>
                                 </td>
                                 <td class="info">
                                     <span class="text" th:text="${item.item}"></span>

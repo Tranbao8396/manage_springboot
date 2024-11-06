@@ -23,9 +23,9 @@
             <form class="form-format-inline" method="post" action="javascript:void(0);" th:action="@{/products/add}" th:object="${prd_form}">
                 <div class="form-group">
                     <label class="form-label">Name:</label>
-                    <select class="form-select" th:name="name_id">
+                    <select class="form-select" th:name="book_id">
                         <option value="" selected hidden></option>
-                        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.category_name}"></option>
+                        <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.book_name}"></option>
                     </select>
                 </div>
 

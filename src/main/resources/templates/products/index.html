@@ -55,7 +55,7 @@
                             <tr th:each="product, key  : ${products}" th:data-id="${product.id}">
                                 <th scope="row" th:text="${key.count}"></th>
                                 <td class="info info-name">
-                                    <span class="text" th:text="${product.name}"></span>
+                                    <span class="text" th:text="${product.imports.book_name}"></span>
                                 </td>
                                 <td class="info info-numb">
                                     <span class="text" th:text="${product.categories.category_name}"></span>
@@ -65,18 +65,18 @@
                                 </td>
 
                                 <td class="select-col">
-                                    <span class="text" th:text="${product.quantity}"></span>
+                                    <span class="text" th:text="${product.imports.quantity}"></span>
                                 </td>
 
                                 <td class="select-col">
-                                    <span class="text" th:text="${product.suppliers.supplier}"></span>
+                                    <span class="text" th:text="${product.imports.bookSupplier.supplier}"></span>
                                 </td>
-    
+
                                 <td style="text-align: center;">
                                     <a data-bs-toggle="collapse" role="button" th:href="@{#collapseAction{id}(id=${product.id})}">
                                         <span class="material-symbols-outlined">more_horiz</span>
                                     </a>
-    
+
                                     <div class="collapse collapse-action" th:id="@{collapseAction{id}(id=${product.id})}">
                                         <ul class="list-unstyled list-action">
                                             <li>

@@ -29,6 +29,9 @@ public class ProductsController {
     @Autowired
     private SupplierRepsitory supplierRepsitory;
 
+    @Autowired
+    private ImportRepository importRepository;
+
     @GetMapping("")
     public String getProducts(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Model model) {
         model.addAttribute("activeProducts","active");
@@ -46,7 +49,7 @@ public class ProductsController {
     public String addView(Model model) {
         model.addAttribute("activeProducts","active");
         model.addAttribute("categories", categoryRepository.findAll());
-        model.addAttribute("suppliers", supplierRepsitory.findAll());
+        model.addAttribute("books", importRepository.findAll());
         return "products/add";
     }
 

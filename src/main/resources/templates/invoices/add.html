@@ -30,7 +30,7 @@
                         <label class="form-label">Book ID:</label>
                         <select class="select-cus select-book" th:name="products" required>
                             <option value="" selected hidden></option>
-                            <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.id + ' - ' + product.name}"></option>
+                            <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.id + ' - ' + product.imports.book_name}"></option>
                         </select>
                     </div>
 

@@ -27,7 +27,7 @@ public class IndexController {
         var PriceImport = importRepository.getPriceImportAll() != null ? importRepository.getPriceImportAll() : 0;
         var Totalprice = invoiceDetailRepository.getTotalPriceAll() != null ? invoiceDetailRepository.getTotalPriceAll() : 0;
         var QuantityImport = importRepository.getQuantityImportAll() != null ? importRepository.getQuantityImportAll() : 0;
-        model.addAttribute("income", String.format("%.0f", PriceImport - Totalprice));
+        model.addAttribute("income", String.format("%.0f", Totalprice - PriceImport));
         model.addAttribute("stock", QuantityImport);
         model.addAttribute("outcome", String.format("%.0f", PriceImport));
         return "home";

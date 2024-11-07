@@ -1,4 +1,4 @@
-body {
+.h-100vh {
   height: 100vh;
 }
 
@@ -9,6 +9,17 @@ body {
 
 a {
   text-decoration: none;
+}
+
+button {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.mw-50 {
+  max-width: 50%;
 }
 
 .navbar {
@@ -35,6 +46,9 @@ a {
 }
 .navbar-right .collapse-nav .list-nav li {
   margin-bottom: 10px;
+}
+.navbar-right .collapse-nav .list-nav li a, .navbar-right .collapse-nav .list-nav li button {
+  color: #333;
 }
 .navbar-right .collapse-nav .list-nav li:last-child {
   margin-bottom: 0;

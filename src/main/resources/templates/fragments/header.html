@@ -19,7 +19,9 @@
                         <a href="#">Profile</a>
                     </li>
                     <li>
-                        <a href="#">Logout</a>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit">Logout</button>
+                        </form>
                     </li>
                 </ul>
             </div>

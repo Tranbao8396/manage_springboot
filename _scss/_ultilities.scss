@@ -1,4 +1,4 @@
-body {
+.h-100vh {
   height: 100vh;
 }
 
@@ -9,4 +9,15 @@ body {
 
 a {
   text-decoration: none;
+}
+
+button {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.mw-50 {
+  max-width: 50%;
 }

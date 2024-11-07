@@ -23,6 +23,10 @@
         li {
           margin-bottom: 10px;
 
+          a, button {
+            color: #333;
+          }
+
           &:last-child {
             margin-bottom: 0;
           }

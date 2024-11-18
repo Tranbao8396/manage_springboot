@@ -7,12 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UsersRepository extends JpaRepository<User, Integer> {
+public interface UsersRepository extends JpaRepository<Users, Integer> {
 
-    @Query("SELECT u FROM User u WHERE u.user_name = ?1")
-    public User getUserByUsername(String username);
+    @Query("SELECT u FROM Users u WHERE u.user_name = ?1")
+    public Users getUserByUsername(String username);
 
     @Modifying
-    @Query("UPDATE User u SET u.user_pass = :password WHERE u.id = :id")
-    void updatePassword(@Param("id") Long id, @Param("password") String password);
+    @Query("UPDATE Users u SET u.user_pass = :password WHERE u.id = :id")
+    public void updatePassword(@Param("id") Long id, @Param("password") String password);
 }

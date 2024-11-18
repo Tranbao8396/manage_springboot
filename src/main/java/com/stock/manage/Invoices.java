@@ -26,12 +26,12 @@ public class Invoices implements Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private User users;
+    private Users users;
 
-    public User getUsers() {
+    public Users getUsers() {
         return users;
     }
-    public void setUsers(User users) {
+    public void setUsers(Users users) {
         this.users = users;
     }
 

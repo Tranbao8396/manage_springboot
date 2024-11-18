@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
@@ -32,6 +34,9 @@ public class InvoiceController {
 
     @Autowired
     private ImportRepository importRepository;
+
+    @Autowired
+    private UsersRepository userRepository;
 
     @GetMapping("")
     public String getInvoice(@RequestParam(defaultValue = "1") int page,
@@ -72,7 +77,10 @@ public class InvoiceController {
             Model model) {
 
         Invoices invoice = new Invoices();
-        invoice.setUser_id(1);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = userRepository.getUserByUsername(authentication.getName());
+
+        invoice.setUser_id(user.getId());
         invoice.setCreated_date(new Date());
         invoiceRepository.save(invoice);
         // invoiceRepository.flush();

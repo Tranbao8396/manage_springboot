@@ -102,6 +102,8 @@
                 data_detail = response;
                 var map_detail = data_detail.reduce((a, {invoice_id, price}) => (a[invoice_id] = (a[invoice_id] || 0) + price, a), {});
                 map_detail = Object.keys(map_detail).map(key => ({invoice_id: key, price: map_detail[key], date: new Date(data_detail.find(row => row.invoice_id == key).invoices.created_date).toDateString()}));
+                map_detail = map_detail.reduce((a, {date, price}) => (a[date] = (a[date] || 0) + price, a), {});
+                map_detail = Object.keys(map_detail).map(key => ({date: key, price: map_detail[key]}));
                 new Chart(
                     document.getElementById('incomeChart'),
                     {

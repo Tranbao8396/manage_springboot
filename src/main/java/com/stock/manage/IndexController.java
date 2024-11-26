@@ -1,4 +1,6 @@
 package com.stock.manage;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -6,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 @Controller
 public class IndexController {
@@ -13,10 +18,10 @@ public class IndexController {
     private SupplierRepsitory supplierRepsitory;
 
     @Autowired
-    private ProductsRepository productsRepository;
+    private ImportRepository importRepository;
 
     @Autowired
-    private ImportRepository importRepository;
+    private InvoicesRepository invoiceRepository;
 
     @Autowired
     private InvoiceDetailRepository invoiceDetailRepository;
@@ -33,5 +38,17 @@ public class IndexController {
         model.addAttribute("stock", QuantityImport);
         model.addAttribute("outcome", String.format("%.0f", PriceImport));
         return "home";
+    }
+
+    @GetMapping("/api/getInvoices")
+    @ResponseBody
+    public List<Invoices> getApiInvoices() {
+        return invoiceRepository.findAll();
+    }
+
+    @GetMapping("/api/getInvoicesDetail")
+    @ResponseBody
+    public List<InvoiceDetail> getApiInvoicesDetail() {
+        return invoiceDetailRepository.findAll();
     }
 }

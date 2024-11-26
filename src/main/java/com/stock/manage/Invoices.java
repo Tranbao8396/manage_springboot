@@ -28,10 +28,10 @@ public class Invoices implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Users users;
 
-    public Users getUsers() {
-        return users;
+    public String getUsersName() {
+        return users.getUser_name();
     }
-    public void setUsers(Users users) {
+    public void setUsersName(Users users) {
         this.users = users;
     }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/common}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/common}">
 
 <head>
     <title>Stock Manage</title>
@@ -49,26 +50,76 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        This is some text within a card body.
+                        <canvas id="invoiceChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div class="col-3">
+            <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        This is some text within a card body.
+                        <canvas id="incomeChart"></canvas>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                This is some text within a card body.
             </div>
         </div>
     </div>
+
+    <script layout:fragment="script">
+        var data;
+        $.ajax({
+            type: "GET",
+            url: "/api/getInvoices",
+            success: function (response) {
+                data = response;
+                var data_count = data.map(row => row.user_id);
+                var map = data_count.reduce((cnt, cur) => (cnt[cur] = cnt[cur] + 1 || 1, cnt), {});
+                map = Object.keys(map).map(key => ({user_id: key, count: map[key], usersName: data.find(row => row.user_id == key).usersName}));
+
+                new Chart(
+                    document.getElementById('invoiceChart'),
+                    {
+                        type: 'bar',
+                        data: {
+                            labels: map.map(row => row.usersName),
+                            datasets: [
+                                {
+                                    label: 'Invoice by Seller',
+                                    data: map.map(row => row.count)
+                                }
+                            ]
+                        }
+                    }
+                );
+            }
+        });
+
+        var data_detail;
+        $.ajax({
+            type: "GET",
+            url: "/api/getInvoicesDetail",
+            success: function (response) {
+                data_detail = response;
+                var map_detail = data_detail.reduce((a, {invoice_id, price}) => (a[invoice_id] = (a[invoice_id] || 0) + price, a), {});
+                map_detail = Object.keys(map_detail).map(key => ({invoice_id: key, price: map_detail[key], date: new Date(data_detail.find(row => row.invoice_id == key).invoices.created_date).toDateString()}));
+                new Chart(
+                    document.getElementById('incomeChart'),
+                    {
+                        type: 'line',
+                        data: {
+                            labels: map_detail.map(row => row.date),
+                            datasets: [
+                                {
+                                    label: 'Income per Invoice',
+                                    data: map_detail.map(row => row.price)
+                                }
+                            ]
+                        }
+                    }
+                );
+            }
+        });
+    </script>
 </body>
 
 </html>

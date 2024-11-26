@@ -81,7 +81,7 @@ public class InvoiceDetail implements Serializable {
         this.price = price;
     }
 
-    public int getVoucher() {
+    public Integer getVoucher() {
         return voucher;
     }
     public void setVoucher(Integer voucher) {

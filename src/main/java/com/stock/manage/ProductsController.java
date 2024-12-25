@@ -23,9 +23,6 @@ public class ProductsController {
     private ProductsRepository productsRepsitory;
 
     @Autowired
-    private SupplierRepsitory supplierRepsitory;
-
-    @Autowired
     private ImportRepository importRepository;
 
     @GetMapping("")
